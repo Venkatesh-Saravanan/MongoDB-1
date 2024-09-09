@@ -1,0 +1,299 @@
+Product JSON: https://github.com/rvsp/database/blob/master/mongodb/product.json
+
+MongoDB Queries:
+
+1. Find all the information about each product
+
+Query:
+
+db.products.find({})
+
+Explanation:
+
+This query fetches all documents from the products collection.
+
+The {} parameter inside find indicates that there are no filtering criteria, so all documents will be returned.
+
+Example Result:
+
+json
+
+[
+    {
+        "id": "1",
+        "product_name": "Intelligent Fresh Chips",
+        "product_price": 655.00,
+        "product_material": "Concrete",
+        "product_color": "mint green"
+    },
+    {
+        "id": "2",
+        "product_name": "Practical Fresh Sausages",
+        "product_price": 911.0,
+        "product_material": "Cotton",
+        "product_color": "indigo"
+    },
+    ...
+]
+
+
+2. Find the product price which is between 400 to 800
+
+Query:
+
+db.products.find({ product_price: { $gte: 400, $lte: 800 } })
+
+Explanation:
+
+The query uses $gte (greater than or equal to) and $lte (less than or equal to) operators to filter products whose 
+price is between 400 and 800.
+
+This returns all documents where product_price falls within this range.
+
+Example Result:
+
+json
+
+[
+    {
+        "id": "1",
+        "product_name": "Intelligent Fresh Chips",
+        "product_price": 655.00,
+        "product_material": "Concrete",
+        "product_color": "mint green"
+    },
+    {
+        "id": "3",
+        "product_name": "Refined Steel Car",
+        "product_price": 690.00,
+        "product_material": "Rubber",
+        "product_color": "gold"
+    },
+    ...
+]
+
+3. Find the product price which is not between 400 to 600
+
+Query:
+
+db.products.find({ product_price: { $not: { $gte: 400, $lte: 600 } } })
+
+Explanation:
+
+The $not operator is used to negate the condition, so it returns products whose price does not fall between 
+400 and 600.
+
+This excludes products priced within the 400-600 range.
+
+Example Result:
+
+json
+
+[
+    {
+        "id": "2",
+        "product_name": "Practical Fresh Sausages",
+        "product_price": 911.0,
+        "product_material": "Cotton",
+        "product_color": "indigo"
+    },
+    {
+        "id": "3",
+        "product_name": "Refined Steel Car",
+        "product_price": 690.00,
+        "product_material": "Rubber",
+        "product_color": "gold"
+    },
+    ...
+]
+
+4. List the four products which are greater than 500 in price
+
+Query:
+
+db.products.find({ product_price: { $gt: 500 } }).limit(4)
+
+Explanation:
+
+The $gt (greater than) operator filters products with a price above 500.
+The limit(4) function restricts the result set to only four documents.
+
+Example Result:
+
+json
+
+[
+    {
+        "id": "2",
+        "product_name": "Practical Fresh Sausages",
+        "product_price": 911.0,
+        "product_material": "Cotton",
+        "product_color": "indigo"
+    },
+    {
+        "id": "1",
+        "product_name": "Intelligent Fresh Chips",
+        "product_price": 655.00,
+        "product_material": "Concrete",
+        "product_color": "mint green"
+    },
+    ...
+]
+
+5. Find the product name and product material of each product
+
+Query:
+
+db.products.find({}, { product_name: 1, product_material: 1, _id: 0 })
+
+Explanation:
+
+The query returns only the product_name and product_material fields for each product.
+The _id: 0 field ensures that the MongoDB ObjectID is excluded from the result.
+
+Example Result:
+
+json
+
+[
+    {
+        "product_name": "Intelligent Fresh Chips",
+        "product_material": "Concrete"
+    },
+    {
+        "product_name": "Practical Fresh Sausages",
+        "product_material": "Cotton"
+    },
+    ...
+]
+
+6. Find the product with a row id of 10
+
+Query:
+
+db.products.find({ id: "10" })
+
+Explanation:
+
+This query filters the products collection to find the product with an id of "10".
+Example Result:
+
+json
+
+{
+    "id": "10",
+    "product_name": "Generic Wooden Pizza",
+    "product_price": 84.00,
+    "product_material": "Frozen",
+    "product_color": "indigo"
+}
+
+7. Find only the product name and product material
+
+Query:
+
+db.products.find({}, { product_name: 1, product_material: 1, _id: 0 })
+
+Explanation:
+
+This is a repeat of query 5, specifically showing how to extract just the product_name and product_material fields.
+The _id: 0 ensures that the _id field is not included in the results.
+
+Example Result:
+
+json
+
+[
+    {
+        "product_name": "Intelligent Fresh Chips",
+        "product_material": "Concrete"
+    },
+    {
+        "product_name": "Practical Fresh Sausages",
+        "product_material": "Cotton"
+    },
+    ...
+]
+
+8. Find all products which contain the value "Soft" in product material
+
+Query:
+
+db.products.find({ product_material: "Soft" })
+
+Explanation:
+
+The query filters the products collection to return only those where the product_material field has the value 
+"Soft".
+Example Result:
+
+json
+
+[
+    {
+        "id": "4",
+        "product_name": "Gorgeous Plastic Pants",
+        "product_price": 492.00,
+        "product_material": "Soft",
+        "product_color": "plum"
+    },
+    {
+        "id": "9",
+        "product_name": "Awesome Wooden Ball",
+        "product_price": 28.00,
+        "product_material": "Soft",
+        "product_color": "azure"
+    },
+    ...
+]
+
+9. Find products which contain product color "indigo" and product price 492.00
+
+Query:
+
+db.products.find({ product_color: "indigo", product_price: 492.00 })
+
+Explanation:
+
+The query uses multiple conditions to filter the products where product_color is "indigo" and product_price is 
+492.00.
+
+Example Result:
+
+json
+
+[
+    {
+        "id": "4",
+        "product_name": "Gorgeous Plastic Pants",
+        "product_price": 492.00,
+        "product_material": "Soft",
+        "product_color": "plum"
+    }
+]
+
+10. Delete the products which product price value is 28
+
+Query:
+
+db.products.deleteMany({ product_price: 28.00 })
+
+Explanation:
+
+The deleteMany method deletes all documents where the product_price is 28.00.
+This action is irreversible, so use with caution.
+
+Example Result:
+
+json
+
+{
+    "acknowledged": true,
+    "deletedCount": 1
+}
+
+Conclusion
+
+These MongoDB queries provide powerful tools to filter, retrieve, and manipulate data within your product 
+collection. You can easily adapt these queries to suit other datasets or extend them with additional conditions 
+and fields as needed.
